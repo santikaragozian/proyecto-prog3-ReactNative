@@ -1,19 +1,79 @@
 import React, {Component} from 'react'
-import {Text} from 'react-native'
+import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
 
 class Login extends Component{
     constructor(){
         super()
         this.state = {
-
+            email: '',
+            password: '',
         }
     }
 
     render(){
         return(
-            <Text>Hola</Text>
+            <View style={styles.container}>
+
+                <Text>Login</Text>
+
+                <TextInput 
+                style={styles.field}
+                keyboardType='default'
+                placeholder='email'
+                onChangeText={ text => this.setState({email:text}) }
+                />
+
+                <TextInput 
+                style={styles.field}
+                keyboardType='default'
+                placeholder='password'
+                secureTextEntry={true}
+                onChangeText={ text => this.setState({password:text}) }
+                />
+
+                <Text styles={styles.error}> {this.props.errorMessage} </Text>
+
+                <TouchableOpacity style={styles.button} onPress={ () => this.props.login(this.state.email, this.state.password) }>
+                    <Text style={styles.textButton}>Ingresar</Text>
+                </TouchableOpacity>
+
+            </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container:{
+        paddingHorizontal:10,
+        marginTop:20
+    },
+
+    field:{
+        height:20,
+        paddingVertical:15,
+        paddingHorizontal:10,
+        borderWidth:1,
+        borderColor:'#ccc',
+        borderStyle: 'solid',
+        borderRadius:6,
+        marginVertical:10,
+    },
+
+    button:{
+        backgroundColor:'#28a745',
+        paddingHorizontal:10,
+        paddingVertical:6,
+        textAlign: 'center',
+        borderRadius:4,
+        borderWidth:1,
+        borderStyle: 'solid',
+        borderColor:'#28a745', 
+    },  
+
+    textButton:{
+        color: '#fff'
+    },
+
+  })
 
 export default Login

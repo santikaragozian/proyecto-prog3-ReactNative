@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Text} from 'react-native'
+import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
+import {auth, db} from '../firebase/config'
 
 class PostForm extends Component{
     constructor(){
@@ -9,11 +10,80 @@ class PostForm extends Component{
         }
     }
 
+    submitPost(){
+        console.log('posteando');
+        db.collection('posts').add({
+            owner: auth.currentUser.email,
+            texto: this.state.textoPost,
+            createdAt: Date.now(),
+        })
+        .then( ()=>{
+            this.setState({
+                textoPost: ''
+            })
+            //Redireccion
+            this.props.drawerProps.navigation.navigate('Home')
+        })
+        .catch()
+    }
+
     render(){
         return(
-            <Text>Hola</Text>
+            <View style={styles.container}>
+
+                <TextInput 
+                style={styles.field}
+                keyboardType='default'
+                placeholder='Escribir Aqui'
+                onChangeText={ (text) => this.setState({textoPost: text}) }
+                multiline
+                />
+
+                <TouchableOpacity style={styles.button} onPress={ () => this.submitPost() }>
+                    <Text style={styles.textButton}>Guardar</Text>
+                </TouchableOpacity>
+
+            </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container:{
+        paddingHorizontal:10,
+        marginTop:20
+    },
+
+    field:{
+        height:100,
+        paddingVertical:15,
+        paddingHorizontal:10,
+        borderWidth:1,
+        borderColor:'#ccc',
+        borderStyle: 'solid',
+        borderRadius:6,
+        marginVertical:10,
+    },
+
+    button:{
+        backgroundColor:'#28a745',
+        paddingHorizontal:10,
+        paddingVertical:6,
+        textAlign: 'center',
+        borderRadius:4,
+        borderWidth:1,
+        borderStyle: 'solid',
+        borderColor:'#28a745', 
+    },  
+
+    textButton:{
+        color: '#fff'
+    },
+    
+    error:{
+        color:'#ff0000'
+    }
+
+  })
 
 export default PostForm

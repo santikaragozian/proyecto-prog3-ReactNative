@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text} from 'react-native'
+import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
 
 class Perfil extends Component{
     constructor(){
@@ -11,9 +11,35 @@ class Perfil extends Component{
 
     render(){
         return(
-            <Text>Hola</Text>
+            <View>
+                <Text> E-mail: {this.props.user.email} </Text>
+                <Text> Usuario creado el: {this.props.user.metadata.creationTime} </Text>
+                <Text> Ultimo login: {this.props.user.metadata.lastSignInTime} </Text>
+
+                <TouchableOpacity style={styles.button} onPress={() => this.props.logout()}>
+                    <Text style={styles.textButton}>Logout</Text>
+                </TouchableOpacity>
+            </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    button:{
+        backgroundColor:'rgb(255, 0, 0)',
+        paddingHorizontal:10,
+        paddingVertical:6,
+        textAlign: 'center',
+        borderRadius:4,
+        borderWidth:1,
+        borderStyle: 'solid',
+        borderColor:'rgb(255, 0, 0)',
+        margin: 10,
+    },
+
+    textButton:{
+        color: '#fff'
+    }
+})
 
 export default Perfil
