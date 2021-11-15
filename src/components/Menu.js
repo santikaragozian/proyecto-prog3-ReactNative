@@ -79,9 +79,8 @@ class Menu extends Component{
             this.state.logueado == false ?
             <NavigationContainer>
                 <Drawer.Navigator>
-                    <Drawer.Screen name='Home' component={() => <Home />} />
-                    <Drawer.Screen name='Registro' component={(drawerProps) => <Register drawerProps={drawerProps} register={ (email,pass) => this.register(email, pass)} />} />
                     <Drawer.Screen name='Login' component={() => <Login login={ (email,pass) => this.login(email,pass) } />} />
+                    <Drawer.Screen name='Registro' component={(drawerProps) => <Register drawerProps={drawerProps} register={ (email,pass) => this.register(email, pass)} />} />
                 </Drawer.Navigator>
             </NavigationContainer> :
             <NavigationContainer>

@@ -23,6 +23,11 @@ class Post extends Component{
                 likes: this.props.postData.data.likes.length,
                 myLike: this.props.postData.data.likes.includes(auth.currentUser.email),
             })
+        } else {
+            this.setState({
+                likes: this.props.postData.data.likes.length,
+                myLike: false
+            })
         }
     }
 
@@ -85,13 +90,9 @@ const styles = StyleSheet.create({
         padding: 10
     },
 
-    user: {
-        paddingTop: 2,
-        paddingBottom: 2,
-    },
-
     likes: {
-        
+        paddingBottom: 2,
+        paddingTop: 3,
     },
 
     icon: {

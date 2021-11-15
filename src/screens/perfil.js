@@ -12,9 +12,9 @@ class Perfil extends Component{
     render(){
         return(
             <View>
-                <Text> E-mail: {this.props.user.email} </Text>
-                <Text> Usuario creado el: {this.props.user.metadata.creationTime} </Text>
-                <Text> Ultimo login: {this.props.user.metadata.lastSignInTime} </Text>
+                <Text style={styles.textoPerfil}> E-mail: {this.props.user.email} </Text>
+                <Text style={styles.textoPerfil}> Usuario creado el: {this.props.user.metadata.creationTime} </Text>
+                <Text style={styles.textoPerfil}> Ultimo login: {this.props.user.metadata.lastSignInTime} </Text>
 
                 <TouchableOpacity style={styles.button} onPress={() => this.props.logout()}>
                     <Text style={styles.textButton}>Logout</Text>
@@ -25,7 +25,11 @@ class Perfil extends Component{
 }
 
 const styles = StyleSheet.create({
-    button:{
+    textoPerfil:{
+
+    },
+
+    button: {
         backgroundColor:'rgb(255, 0, 0)',
         paddingHorizontal:10,
         paddingVertical:6,
