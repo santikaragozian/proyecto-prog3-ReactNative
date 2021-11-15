@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import firebase from 'firebase'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHeart as farFaHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as fasFaHeart } from '@fortawesome/free-solid-svg-icons'
 import { db, auth } from '../firebase/config'
 
 
@@ -55,17 +58,19 @@ class Post extends Component{
         //console.log(this.props);
         return(
             <View style={styles.container} >
-                <Text><b>{this.state.likes} likes </b></Text>
-                <Text style={styles.user}><b>{this.props.postData.data.owner}:</b> {this.props.postData.data.texto}</Text> 
+                
                 {
                     this.state.myLike == false ?
                     <TouchableOpacity onPress={()=>this.darLike()}>
-                        <Text>Me gusta</Text>
+                        <FontAwesomeIcon style={styles.icon} icon={farFaHeart} />
                     </TouchableOpacity> :
                     <TouchableOpacity onPress={()=>this.quitarLike()}>
-                        <Text>Quitar Like</Text>
+                        <FontAwesomeIcon style={styles.icon} icon={fasFaHeart} />
                     </TouchableOpacity>
                 }
+
+                <Text style={styles.likes} ><b>likes: {this.state.likes} </b></Text>
+                <Text style={styles.user}><b>{this.props.postData.data.owner}:</b> {this.props.postData.data.texto}</Text> 
             </View>
         )
     }
@@ -80,9 +85,18 @@ const styles = StyleSheet.create({
         padding: 10
     },
 
-    /* user: {
-        fontWeight: 'bold'
-    } */
+    user: {
+        paddingTop: 2,
+        paddingBottom: 2,
+    },
+
+    likes: {
+        
+    },
+
+    icon: {
+        color: 'red'
+    },
 })
 
 export default Post
