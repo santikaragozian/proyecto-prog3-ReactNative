@@ -14,25 +14,58 @@ class Post extends Component{
         }
     }
 
+    componentDidMount(){
+        if(this.props.postData.data.likes){
+            this.setState({
+                likes: this.props.postData.data.likes.length,
+                myLike: this.props.postData.data.likes.includes(auth.currentUser.email),
+            })
+        }
+    }
+
     darLike(){
         //Agregar mi usuario a un array de usuarios que likearon
             //Updatear el registro (documento)
         db.collection('posts').doc(this.props.postData.id).update({
             likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
         })
-
         //Cambiar estado
+        .then(()=>{
+            this.setState({
+                likes: this.props.postData.data.likes.length,
+                myLike: true
+            })
+        })
+        
+    }
+
+    quitarLike(){
+        db.collection('posts').doc(this.props.postData.id).update({
+            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
+        })
+        .then(()=>{
+            this.setState({
+                likes: this.props.postData.data.likes.length,
+                myLike: false
+            })
+        })
     }
     
     render(){
-        //console.log(auth.currentUser.email);
+        //console.log(this.props);
         return(
             <View style={styles.container} >
-                <Text>Texto del post: {this.props.postData.data.texto}</Text>
-                <Text>user: {this.props.postData.data.owner} </Text>
-                <TouchableOpacity>
-                    <Text>Me gusta</Text>
-                </TouchableOpacity>
+                <Text><b>{this.state.likes} likes </b></Text>
+                <Text style={styles.user}><b>{this.props.postData.data.owner}:</b> {this.props.postData.data.texto}</Text> 
+                {
+                    this.state.myLike == false ?
+                    <TouchableOpacity onPress={()=>this.darLike()}>
+                        <Text>Me gusta</Text>
+                    </TouchableOpacity> :
+                    <TouchableOpacity onPress={()=>this.quitarLike()}>
+                        <Text>Quitar Like</Text>
+                    </TouchableOpacity>
+                }
             </View>
         )
     }
@@ -45,7 +78,11 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderWidth: 1,
         padding: 10
-    }
+    },
+
+    /* user: {
+        fontWeight: 'bold'
+    } */
 })
 
 export default Post
