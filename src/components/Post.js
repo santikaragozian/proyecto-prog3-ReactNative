@@ -25,7 +25,7 @@ class Post extends Component{
             })
         } else {
             this.setState({
-                likes: this.props.postData.data.likes.length,
+                /* likes: this.props.postData.data.likes.length, */
                 myLike: false
             })
         }
