@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native'
+import {View, Text, TouchableOpacity, Touchable, StyleSheet, Image} from 'react-native'
  import { Camera } from 'expo-camera';
  import { db, storage} from '../firebase/config';
  
@@ -17,7 +17,11 @@ import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native'
     }
 
     componentDidMount(){
-        Camera.requestMicrophonePermissionsAsync()
+        this.setState({
+            photo: "",
+            showCamera:true
+        })
+        Camera.requestCameraPermissionsAsync()
         .then(()=>{
             this.setState({
                 permission: true,
@@ -75,21 +79,18 @@ import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native'
     render(){
         return(
             <View style={styles.container}>
-            {
-                this.state.permission ?
+            {this.state.permission ?
 
-                    this.state.showCamera === false ?
+                this.state.showCamera === false ?
                     <React.Fragment>
                        
-                        <Image
-                          style={styles.cameraBody}
-                          source={{uri:this.state.photo}}
-                        />
+                        <Image style={styles.cameraBody} source={{uri:this.state.photo}}/>
                           
                         <View>
                             <TouchableOpacity onPress={()=> this.savePhoto()} >
                             <Text> Aceptar </Text>
                             </TouchableOpacity>
+                            
                             <TouchableOpacity onPress={()=>this.clear()}>
                                 <Text>Rechazar</Text>
                             </TouchableOpacity>

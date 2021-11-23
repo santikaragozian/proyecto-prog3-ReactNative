@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import {Text, View, StyleSheet, TouchableOpacity,Modal, TextInput,FlatList} from 'react-native'
 import firebase from 'firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHeart as farFaHeart } from '@fortawesome/free-regular-svg-icons'
@@ -14,6 +14,8 @@ class Post extends Component{
         this.state = {
             likes: 0,
             myLike: false,
+            showModal: false, //vista del modal
+            comment: '', //para limpiar el campo despues de enviar
         }
     }
 
@@ -58,6 +60,39 @@ class Post extends Component{
             })
         })
     }
+
+    showModal(){
+        this.setState({
+            showModal: true,
+        })
+    }
+
+    hideModal(){
+        this.setState({
+            showModal: false,
+        })
+    }
+
+    guardarComentario(){
+        console.log('guardando comentario.....');
+        let oneComment={
+            createdAt: Date.now(),
+            author:auth.currentUser.email,
+            comment: this.state.comment, 
+        }
+
+        db.collection('posts').doc(this.props.postData.id).update({
+            comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
+        })
+        .then(()=>{
+            this.setState({
+                comment: ''
+            })
+        })
+
+
+
+    }
     
     render(){
         //console.log(this.props);
@@ -74,6 +109,46 @@ class Post extends Component{
                     </TouchableOpacity>
                 }
 
+                <TouchableOpacity onPress={()=> this.showModal()} >
+                    <Text>Ver Comentarios</Text>
+                </TouchableOpacity>
+
+                {
+                    this.state.showModal ?
+                    <Modal style={styles.modalContainer} visible={this.state.showModal} animationType='slide' transparent={false}>
+                        <TouchableOpacity onPress={()=>this.hideModal()}>
+                        <Text style={styles.cerrarBotton}>X</Text>
+                        </TouchableOpacity>
+                        
+                        <FlatList
+                            data={this.props.postData.data.comments}
+                            keyExtractor={(comment)=>comment.createdAt.toString()}
+                            renderItem={ ({item}) => <Text>{item.author}: {item.comment}</Text> }
+                        />
+
+                        <View>
+                        <TextInput 
+                        style={styles.field} 
+                        placeholder="Comentar..." 
+                        keyboardType="default" 
+                        multiline 
+                        onChangeText={text => this.setState({comment:text})} 
+                        value={this.state.comment} 
+                        />
+                        <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={()=>this.guardarComentario()}>
+                        <Text style={styles.textButton}> Guardar Comentario</Text>
+                        </TouchableOpacity>
+                        </View>
+                    </Modal> :
+                    <Text></Text>
+
+                }
+
+
+           
+
                 <Text style={styles.likes} ><b>likes: {this.state.likes} </b></Text>
                 <Text style={styles.user}><b>{this.props.postData.data.owner}:</b> {this.props.postData.data.texto}</Text> 
             </View>
@@ -82,6 +157,7 @@ class Post extends Component{
 }
 
 const styles = StyleSheet.create({
+
     container: {
         marginBottom: 20,
         borderRadius: 4,
@@ -90,6 +166,16 @@ const styles = StyleSheet.create({
         padding: 10
     },
 
+    modalContainer:{
+        width:'97%',
+        borderRadius: 4,
+        padding:5,
+        alignSelf: 'center',
+        boxShadow: 'rgb(204 204 204) 0px 0px 9px 7px',
+        marginTop: 20,
+        marginBottom:10,
+
+    },
     likes: {
         paddingBottom: 2,
         paddingTop: 3,
@@ -97,6 +183,39 @@ const styles = StyleSheet.create({
 
     icon: {
         color: 'red'
+    },
+    cerrarBotton:{
+        color: '#fff',
+        padding: 5,
+        backgroundColor: '#dc3545',
+        alignSelf: 'flex-end',
+        paddingHorizontal:8
+    },
+
+    field:{
+        height:40,
+        paddingVertical:15,
+        paddingHorizontal:10,
+        borderWidth:1,
+        borderColor:'#ccc',
+        borderStyle: 'solid',
+        borderRadius:6,
+        marginVertical:10,
+    },
+
+    button:{
+        backgroundColor:'#28a745',
+        paddingHorizontal:10,
+        paddingVertical:6,
+        textAlign: 'center',
+        borderRadius:4,
+        borderWidth:1,
+        borderStyle: 'solid',
+        borderColor:'#28a745', 
+    },  
+
+    textButton:{
+        color: '#fff'
     },
 })
 

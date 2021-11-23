@@ -9,6 +9,7 @@ class PostForm extends Component{
         this.state = {
             textoPost: '',
             showCamera:true,
+            url: ''
         }
     }
 
@@ -18,6 +19,7 @@ class PostForm extends Component{
             owner: auth.currentUser.email,
             texto: this.state.textoPost,
             createdAt: Date.now(),
+            photo: this.state.url,
         })
         .then( ()=>{
             this.setState({
@@ -29,12 +31,19 @@ class PostForm extends Component{
         .catch()
     }
 
+    onImageUpload(url){
+        this.setState({
+            showCamera: false,
+            url: url,
+        })
+    }
+
     render(){
         return(
         <View style={styles.container}>
             {
                this.state.showCamera?
-               <MyCamera />:
+               <MyCamera onImageUpload={(url)=>{this.onImageUpload(url)}} />:
                <View style={styles.container}>
 
                 <TextInput 
