@@ -18,6 +18,7 @@ class Menu extends Component{
         this.state = {
             logueado: false,
             user: '',
+            errorMessage: '',
         }
     }
 
@@ -79,8 +80,8 @@ class Menu extends Component{
             this.state.logueado == false ?
             <NavigationContainer>
                 <Drawer.Navigator>
-                    <Drawer.Screen name='Login' component={() => <Login login={ (email,pass) => this.login(email,pass) } />} />
-                    <Drawer.Screen name='Registro' component={(drawerProps) => <Register drawerProps={drawerProps} register={ (email,pass) => this.register(email, pass)} />} />
+                    <Drawer.Screen name='Login' component={() => <Login login={ (email,pass) => this.login(email,pass) } errorMessage={this.state.errorMessage} />} />
+                    <Drawer.Screen name='Registro' component={(drawerProps) => <Register drawerProps={drawerProps} register={ (email,pass) => this.register(email, pass)} errorMessage={this.state.errorMessage} />} />
                 </Drawer.Navigator>
             </NavigationContainer> :
             <NavigationContainer>

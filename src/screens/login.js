@@ -31,8 +31,6 @@ class Login extends Component{
                 onChangeText={ text => this.setState({password:text}) }
                 />
 
-                <Text>No tenes una cuenta? </Text> <Text>Registrate aca</Text>
-
                 <Text styles={styles.error}> {this.props.errorMessage} </Text>
 
                 <TouchableOpacity style={styles.button} onPress={ () => this.props.login(this.state.email, this.state.password) }>
@@ -74,6 +72,10 @@ const styles = StyleSheet.create({
 
     textButton:{
         color: '#fff'
+    },
+
+    error: {
+        color: 'red'
     },
 
   })

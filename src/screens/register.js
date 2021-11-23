@@ -34,7 +34,7 @@ class Register extends Component{
 
                 <Text style={styles.error}> {this.props.errorMessage} </Text>
 
-                <TouchableOpacity style={styles.button} onPress={ () => this.props.register(this.state.email, this.state.password) }>
+                <TouchableOpacity style={styles.button} onPress={ () => this.props.register(this.state.email, this.state.password) } >
                     <Text style={styles.textButton}>Register</Text>
                 </TouchableOpacity>
 
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     },
 
     error: {
-        color: '#ff0000'
+        color: 'red'
     }
     
   })

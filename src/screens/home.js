@@ -13,7 +13,7 @@ class Home extends Component{
     }
 
     componentDidMount(){
-        db.collection('posts').onSnapshot(
+        db.collection('posts').orderBy('createdAt', 'desc').onSnapshot(
           docs => {
             //Array para crear datos en formato mas util
             let posts = []
