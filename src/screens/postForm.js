@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
 import {auth, db} from '../firebase/config'
+import MyCamera from '../components/MyCamera'
 
 class PostForm extends Component{
     constructor(){
         super()
         this.state = {
-
+            textoPost: '',
+            showCamera:true,
         }
     }
 
@@ -29,7 +31,11 @@ class PostForm extends Component{
 
     render(){
         return(
-            <View style={styles.container}>
+        <View style={styles.container}>
+            {
+               this.state.showCamera?
+               <MyCamera />:
+               <View style={styles.container}>
 
                 <TextInput 
                 style={styles.field}
@@ -43,7 +49,9 @@ class PostForm extends Component{
                     <Text style={styles.textButton}>Guardar</Text>
                 </TouchableOpacity>
 
-            </View>
+            </View> 
+            }       
+        </View>
         )
     }
 }
@@ -51,7 +59,8 @@ class PostForm extends Component{
 const styles = StyleSheet.create({
     container:{
         paddingHorizontal:10,
-        marginTop:20
+        marginTop:20,
+        flex: 1
     },
 
     field:{
