@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Text, View, StyleSheet, TouchableOpacity,Modal, TextInput,FlatList} from 'react-native'
 import firebase from 'firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faHeart as farFaHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as farFaHeart , faComment} from '@fortawesome/free-regular-svg-icons'
 import { faHeart as fasFaHeart } from '@fortawesome/free-solid-svg-icons'
 import { db, auth } from '../firebase/config'
 
@@ -110,9 +110,8 @@ class Post extends Component{
                 }
 
                 <TouchableOpacity onPress={()=> this.showModal()} >
-                    <Text>Ver Comentarios</Text>
+                    <FontAwesomeIcon style={styles.commentIcon} icon={faComment}/>
                 </TouchableOpacity>
-
                 {
                     this.state.showModal ?
                     <Modal style={styles.modalContainer} visible={this.state.showModal} animationType='slide' transparent={false}>
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderColor: '#ccc',
         borderWidth: 1,
-        padding: 10
+        padding: 10,
     },
 
     modalContainer:{
@@ -182,8 +181,13 @@ const styles = StyleSheet.create({
     },
 
     icon: {
-        color: 'red'
+        color: 'red',
     },
+
+    commentIcon: {
+        paddingTop: 3
+    },
+
     cerrarBotton:{
         color: '#fff',
         padding: 5,
