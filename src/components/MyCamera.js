@@ -81,7 +81,7 @@ import {View, Text, TouchableOpacity, Touchable, StyleSheet, Image} from 'react-
             <View style={styles.container}>
             {this.state.permission ?
 
-                this.state.showCamera === false ?
+                !this.state.showCamera?
                     <React.Fragment>
                        
                         <Image style={styles.cameraBody} source={{uri:this.state.photo}}/>
@@ -101,7 +101,7 @@ import {View, Text, TouchableOpacity, Touchable, StyleSheet, Image} from 'react-
                 <Camera 
                      style= {styles.cameraBody} 
                      type= {Camera.Constants.Type.back}
-                     ref= { reference => this.camera = reference} 
+                     ref= { ref => this.camera = ref} 
                   />
                   <TouchableOpacity style={styles.button} onPress= { ()=> this.takePicture()} >
                       <Text> Sacar Foto </Text>
