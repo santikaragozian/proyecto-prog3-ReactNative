@@ -16,6 +16,8 @@ class Post extends Component{
             myLike: false,
             showModal: false, //vista del modal
             comment: '', //para limpiar el campo despues de enviar
+            myPost: true,
+            text: '',
         }
     }
 
@@ -27,7 +29,6 @@ class Post extends Component{
             })
         } else {
             this.setState({
-                /* likes: this.props.postData.data.likes.length, */
                 myLike: false
             })
         }
@@ -94,6 +95,13 @@ class Post extends Component{
 
     }
     
+    deletePost(){
+        db.collection('posts').doc(this.props.postData.id).delete()
+        .then(()=>{
+            console.log('posteo borrado');
+        })
+    }  
+
     render(){
         //console.log(this.props);
         return(
@@ -150,6 +158,15 @@ class Post extends Component{
 
                 <Text style={styles.likes} ><b>likes: {this.state.likes} </b></Text>
                 <Text style={styles.user}><b>{this.props.postData.data.owner}:</b> {this.props.postData.data.texto}</Text> 
+
+                {
+                    this.state.myPost == true ?
+                
+                <TouchableOpacity onPress={()=>this.deletePost()} >
+                    <Text>borrar posteo</Text>
+                </TouchableOpacity>  :
+                <Text>{this.state.text}</Text>
+                }
             </View>
         )
     }
