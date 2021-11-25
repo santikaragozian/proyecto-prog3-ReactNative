@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Text, View, StyleSheet, TouchableOpacity,Modal, TextInput,FlatList} from 'react-native'
 import firebase from 'firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faHeart as farFaHeart , faComment} from '@fortawesome/free-regular-svg-icons'
+import { faHeart as farFaHeart , faComment, faTrashAlt} from '@fortawesome/free-regular-svg-icons'
 import { faHeart as fasFaHeart } from '@fortawesome/free-solid-svg-icons'
 import { db, auth } from '../firebase/config'
 
@@ -27,11 +27,11 @@ class Post extends Component{
                 likes: this.props.postData.data.likes.length,
                 myLike: this.props.postData.data.likes.includes(auth.currentUser.email),
             })
-        } else {
+        } /* else {
             this.setState({
                 myLike: false
             })
-        }
+        } */
     }
 
     darLike(){
@@ -103,7 +103,7 @@ class Post extends Component{
     }  
 
     render(){
-        //console.log(this.props);
+        console.log(auth.currentUser);
         return(
             <View style={styles.container} >
                 
@@ -160,12 +160,12 @@ class Post extends Component{
                 <Text style={styles.user}><b>{this.props.postData.data.owner}:</b> {this.props.postData.data.texto}</Text> 
 
                 {
-                    this.state.myPost == true ?
+                    this.props.postData.data.owner === auth.currentUser.email ?
                 
                 <TouchableOpacity onPress={()=>this.deletePost()} >
-                    <Text>borrar posteo</Text>
+                    <FontAwesomeIcon style={styles.trash} icon={faTrashAlt} ></FontAwesomeIcon>
                 </TouchableOpacity>  :
-                <Text>{this.state.text}</Text>
+                <Text></Text>
                 }
             </View>
         )
@@ -237,6 +237,10 @@ const styles = StyleSheet.create({
 
     textButton:{
         color: '#fff'
+    },
+
+    trash:{
+        alignSelf: 'flex-end',
     },
 })
 
