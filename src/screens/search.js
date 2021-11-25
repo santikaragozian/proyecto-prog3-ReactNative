@@ -8,17 +8,13 @@ constructor(props){
     super(props);
     this.state={
         posteosGuardados: [],
-        loading: true
+        /* loading: true */
 
     }
 }
 
-componentDidMount(){
-
-}
-
 search(text){
-    db.collection('posts').where('email', '==', text).get().then(docs=>{
+    db.collection('posts').where('owner', '==', text).get().then(docs=>{
         let posts=[];
         docs.forEach(doc => {
             posts.push({
@@ -33,17 +29,18 @@ search(text){
 }
 
 render(){
+    /* console.log(this.post); */
     return(
         <View>
 
             <Text style={styles.texto}> Buscador de Posts </Text>
-            <TextInput style={styles.input} onChangeText= {(text)=> this.search(text)}/>
+            <TextInput style={styles.input} onChangeText= {(text)=> this.search(text.toLowerCase())}/>
             <Text style={styles.subtitulo}>Resultados:</Text>
             {this.state.posteosGuardados.length > 0 ?
                 <FlatList
                 data={this.state.posteosGuardados} 
                 keyExtractor={ post => post.id}
-                renderItem={ ({item})=><Post doc={item}/>}
+                renderItem={ ({item})=><Post postData={item}/>}
                 /> 
                 :
                 <Text> No existen resultados disponibles</Text>
