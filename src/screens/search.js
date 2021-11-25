@@ -37,8 +37,8 @@ render(){
         <View>
 
             <Text style={styles.texto}> Buscador de Posts </Text>
-            <TextInput style={StyleSheet.input} onChangeText= {(text)=> this.search(text)}/>
-            <Text style={StyleSheet.subtitulo}>Resultados:</Text>
+            <TextInput style={styles.input} onChangeText= {(text)=> this.search(text)}/>
+            <Text style={styles.subtitulo}>Resultados:</Text>
             {this.state.posteosGuardados.length > 0 ?
                 <FlatList
                 data={this.state.posteosGuardados} 
@@ -56,7 +56,7 @@ render(){
 }
 
 const styles= StyleSheet.create({
-    texto:{
+    input:{
         borderColor: "grey",
         paddingVertical: 15,
         borderWidth: 1,
@@ -67,6 +67,8 @@ const styles= StyleSheet.create({
         borderRadius: 6,
         marginVertical: 15
     },
+
+
 
 })
 
