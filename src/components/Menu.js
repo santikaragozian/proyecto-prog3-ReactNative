@@ -90,7 +90,7 @@ class Menu extends Component{
                 <Drawer.Screen name='Home' component={() => <Home />} />
                 <Drawer.Screen name='New Post' component={(drawerProps) => <PostForm drawerProps={drawerProps} /> } />
                 <Drawer.Screen name='Perfil' component={() => <Perfil user={this.state.user} logout={ () => this.logout() } /> } />
-                <Drawer.Screen name='Buscador' component={() => <Search />} />
+                <Drawer.Screen name='Buscador' component={() => <Search /> } />
             </Drawer.Navigator>
             </NavigationContainer>
         )
